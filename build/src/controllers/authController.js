@@ -1,5 +1,5 @@
-import {Request,Response} from "express";
-import  {IUser} from "../services/User/IUser";
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 /*
 export const signUp = async (req: Request,res:Response) =>{
     const {username,email,password,roles}=req.body;
@@ -24,4 +24,4 @@ export const signUp = async (req: Request,res:Response) =>{
 export const signIn = async (req: Request,res:Response) =>{
     res.json("Sign In");
 }
-*/
+*/ 

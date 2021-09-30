@@ -13,4 +13,4 @@ export interface IRoleModel extends Model<IRole> {
   findByRole(role: string): Promise<IRoleDocument>;
 }
 
-export const IRole: IRoleModel = model<IRole, IRoleModel>('Role', RoleSchema);
+export const Role: IRoleModel = model<IRole, IRoleModel>('Role', RoleSchema);

@@ -1,21 +1,20 @@
 import { Model, model } from 'mongoose';
-import { UserSchema,IUserDocument } from '../../repositories/user';
-
-// document
-export interface IUser extends IUserDocument {
-  // Methods
-  methodExample():string;
-}
-
-// model
-export interface IUserModel extends Model<IUser> {
-  // Static Methods
-  cypherPasswordAsync(password:String): Promise<string>;
-  comparePasswordAsync(password:String,recievedPassword:String): Promise<boolean>;
-  getAllUsersAsync(username: string): Promise<Array<IUserDocument>>
-  findByUserNameAsync(username: string): Promise<IUserDocument>;
-  createUserAsync(user: IUserDocument): Promise<IUserDocument>;
+import  {IUserDocument} from '../../repositories/user';
+export interface IUser{
+  //Properties
+  //Attribute1: type;
   
-}
+  //Mehtods
+    //Objects
+    newUser(params: any) : IUserDocument|null
 
-export const IUser: IUserModel = model<IUser, IUserModel>('User', UserSchema);
+    //CRUDE
+    getAllUsersAsync(): Promise<Array<IUserDocument>|null>;
+    getUserByNameAsync (username: string): Promise<IUserDocument|null>;
+    createUserAsync(user: IUserDocument): Promise<IUserDocument|null>;
+    updateUserByUsernameAsync(username: String,userInfo: IUserDocument): Promise<IUserDocument|null>;
+    deleteUserByUsernameAsync(username: string): Promise<IUserDocument|null>;
+    //Verification
+    encryptPasswordAsync(password: string): Promise<string|null>;
+    checkPasswordAsync(password: string,recievedPassword:string): Promise<boolean|null>;
+};
