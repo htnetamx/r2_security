@@ -23,8 +23,8 @@ class userService {
     }
     ;
     //Mehtods
-    //UserObjects
-    newUser(params) {
+    //Deconstructer
+    userParse(params) {
         const { username, password, firstName, lastName, email, zipPostalCode, address1, phoneNumber, company, country, stateProvince, city, address2, createdOnUtc, updatedOnUtc, roles } = params;
         //Validadores
         if (username == null || username == '') {
@@ -39,8 +39,7 @@ class userService {
             console.log("Error en Campo phoneNumber De Modelo User");
             return null;
         }
-        const newUser = new user_1.default({ username, password: password, firstName, lastName, email, zipPostalCode, address1, phoneNumber, company, country, stateProvince, city, address2, createdOnUtc, updatedOnUtc, roles });
-        return newUser;
+        return { username, password, firstName, lastName, email, zipPostalCode, address1, phoneNumber, company, country, stateProvince, city, address2, createdOnUtc, updatedOnUtc, roles };
     }
     //CRUDE
     getAllUsersAsync() {
@@ -82,7 +81,7 @@ class userService {
             }
             catch (error) {
                 console.log("Error Guardando");
-                //console.log(error);
+                console.log(error);
                 return null;
             }
         });
@@ -98,22 +97,6 @@ class userService {
                 //console.log(error);
                 return null;
             }
-        });
-    }
-    ;
-    updateUserPasswordByUsernameAsync(user, newPassword) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (user == null) {
-                console.log("Usuario No Existe");
-                return null;
-            }
-            const password = yield this.encryptPasswordAsync(newPassword);
-            if (password == null || password == '') {
-                console.log("Clave No Valida");
-                return null;
-            }
-            user.password = password;
-            return yield user_1.default.findOneAndUpdate({ username: user.username }, user, { new: true });
         });
     }
     ;

@@ -50,8 +50,9 @@ export const UserSchema: Schema = new Schema({
   },
   email:{
       type: String,
-      unique: true  
-      //required: true, 
+      unique: true, 
+      //required: true,
+      sparse: true 
   },
   zipPostalCode:{
       type: String,  

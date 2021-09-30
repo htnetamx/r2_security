@@ -30,8 +30,8 @@ class UserRoutes {
         this.router.get('/', userCtrl.getAllUsers);
         this.router.get('/:username', userCtrl.getUserByUserName);
         this.router.post('/create', userCtrl.createUser);
-        //this.router.put('/:username',userCtrl.updateUserByUserName);
-        //this.router.delete('/:username',userCtrl.deleteUserByUserName);
+        this.router.put('/:username', userCtrl.updateUserByUserName);
+        this.router.delete('/:username', userCtrl.deleteUserByUserName);
     }
 }
 const userRoutes = new UserRoutes();

@@ -1,4 +1,3 @@
-import { Model, model } from 'mongoose';
 import  {IUserDocument} from '../../repositories/user';
 export interface IUser{
   //Properties
@@ -6,7 +5,7 @@ export interface IUser{
   
   //Mehtods
     //Objects
-    newUser(params: any) : IUserDocument|null
+    userParse(params: any) : any
 
     //CRUDE
     getAllUsersAsync(): Promise<Array<IUserDocument>|null>;

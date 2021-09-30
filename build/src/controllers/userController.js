@@ -24,13 +24,12 @@ const getUserByUserName = (req, res) => __awaiter(void 0, void 0, void 0, functi
 });
 exports.getUserByUserName = getUserByUserName;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const userInput = yield _userService.newUser(req.body);
+    const userInput = yield _userService.userParse(req.body);
     if (userInput == null) {
         res.json({ response: 'Input Data Could Not Be Parsed' });
     }
     else {
-        const { password } = req.body;
-        const encryptedPassword = yield _userService.encryptPasswordAsync(password);
+        const encryptedPassword = yield _userService.encryptPasswordAsync(userInput.password);
         if (encryptedPassword == null) {
             res.json({ response: 'Error Update Password could not be encrypted' });
         }
@@ -44,20 +43,20 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createUser = createUser;
 const updateUserByUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username } = req.params;
-    const { password } = req.body;
-    let userInput = _userService.newUser(req.body);
+    let userInput = _userService.userParse(req.body);
     if (userInput == null) {
         res.json({ response: 'Input Data Could Not Be Parsed' });
     }
     else {
         const isAdmin = true;
         if (isAdmin) {
-            const encryptedPassword = yield _userService.encryptPasswordAsync(password);
+            const encryptedPassword = yield _userService.encryptPasswordAsync(userInput.password);
             (encryptedPassword == null) ? res.json({ response: 'Error Update Password could not be encrypted' }) : userInput.password = encryptedPassword;
         }
         else {
             delete userInput['password'];
         }
+        userInput.updatedOnUtc = Date.now();
         const user = yield _userService.updateUserByUsernameAsync(username, userInput);
         (user == null) ? res.json({ response: 'User Not Found' }) : res.status(200).json(user);
     }

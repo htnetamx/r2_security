@@ -1,4 +1,3 @@
-import { Model, model } from 'mongoose';
 import  User from '../../repositories/user';
 import  {IUserDocument} from '../../repositories/user';
 import {IUser} from './IUser';
@@ -13,8 +12,8 @@ export class userService implements IUser{
     };
 
     //Mehtods
-        //UserObjects
-        newUser(params: any) : IUserDocument|null{
+        //Deconstructer
+        userParse(params: any) : any{
             const {username,password,firstName,lastName,email,zipPostalCode,address1,phoneNumber,company,country,stateProvince,city,address2,createdOnUtc,updatedOnUtc,roles}=params;
             //Validadores
             if(username==null || username==''){
@@ -29,8 +28,7 @@ export class userService implements IUser{
                 console.log("Error en Campo phoneNumber De Modelo User");
                 return null;
             }
-            const newUser=new User({username,password: password,firstName,lastName,email,zipPostalCode,address1,phoneNumber,company,country,stateProvince,city,address2,createdOnUtc,updatedOnUtc,roles})
-            return newUser;
+            return {username,password,firstName,lastName,email,zipPostalCode,address1,phoneNumber,company,country,stateProvince,city,address2,createdOnUtc,updatedOnUtc,roles};
         }
 
         //CRUDE
@@ -66,11 +64,11 @@ export class userService implements IUser{
             }
             catch(error){
                 console.log("Error Guardando");
-                //console.log(error);
+                console.log(error);
                 return null;
             }
         };
-        async updateUserByUsernameAsync(username: String,userInfo: IUserDocument): Promise<IUserDocument|null>{
+        async updateUserByUsernameAsync(username: String,userInfo: any): Promise<IUserDocument|null>{
             try{
                 return await User.findOneAndUpdate({username},userInfo,{new: true});
             }
@@ -79,19 +77,6 @@ export class userService implements IUser{
                 //console.log(error);
                 return null;
             }
-        };
-        async updateUserPasswordByUsernameAsync(user: IUserDocument,newPassword: string): Promise<IUserDocument|null>{
-            if(user==null){
-                console.log("Usuario No Existe");
-                return null;
-            }
-            const password=await this.encryptPasswordAsync(newPassword);
-            if(password==null || password==''){
-                console.log("Clave No Valida");
-                return null;
-            }
-            user.password=password;
-            return await User.findOneAndUpdate({username:user.username},user,{new: true});
         };
         async deleteUserByUsernameAsync(username: string): Promise<IUserDocument|null>{
             try{
