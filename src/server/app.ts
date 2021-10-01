@@ -6,15 +6,9 @@ import cors from "cors";
 import * as pkg from '../../package.json';
 import { IUserDocument } from "../repositories/user";
 
-// DataBase
-import './database';
-
-//Import Roles
-import { createRoles } from "../libs/initialSetup";
-
 // Create App
 const app = express();
-createRoles();
+
 
 //Express Custom Interfaces
 declare global {
@@ -38,5 +32,4 @@ app.use(express.urlencoded({extended:false}));
 app.use(helmet());
 app.use(compression());
 app.use(cors());
-console.log("Running app.js");
 export default app;

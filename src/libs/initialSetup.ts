@@ -1,6 +1,6 @@
 import Role from '../repositories/role'
 export const createRoles = async() =>  {
-    try{
+    /*try{
         const count = await Role.estimatedDocumentCount();
         if(count>0) return;
             const values=await Promise.all([
@@ -11,5 +11,5 @@ export const createRoles = async() =>  {
             ]);
     }catch(error){
         console.log(error);
-    }
+    }*/
 };

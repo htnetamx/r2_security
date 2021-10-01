@@ -1,6 +1,9 @@
 //TODO: Configuracion de express, cors, morgan, mongoose, graphql
 import express from "express";
 import app from './app'
+import mongoose  from "mongoose";
+import db from "./database";
+import { createRoles } from "../libs/initialSetup";
 
 import indexRoutes from "../api/index";
 import userRoutes from "../api/userRoutes";
@@ -27,5 +30,19 @@ class Server{
         });
     }
 }
-const server=new Server();
-server.start();
+const startServer= async() => {
+    try{
+        const MONGO_URI=await db.mongooseConnect();
+        console.log("Running Database in "+MONGO_URI);
+        const server=new Server();
+        server.start();
+    }catch{
+        console.log("Error in initial connection to mongoose database");
+    }
+};
+
+startServer();
+
+
+
+
