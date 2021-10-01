@@ -12,7 +12,13 @@
 					"name": "Get All Users",
 					"request": {
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "x-access-token",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxNTYxNTdhM2ZlNDg3ZTBlYzJjMTkzYSIsImlhdCI6MTYzMzA0NDY3NywiZXhwIjoxNjMzMTMxMDc3fQ.eBUDmr-DtnzKYDnLBFwWHwQlOKuLX60Z60Bz1t0qFso",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "http://localhost:3000/users",
 							"protocol": "http",
@@ -33,7 +39,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/users/AndresPosada",
+							"raw": "http://localhost:3000/users/pruebapass",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -41,7 +47,7 @@
 							"port": "3000",
 							"path": [
 								"users",
-								"AndresPosada"
+								"pruebapass"
 							]
 						}
 					},
@@ -60,7 +66,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Username\":       \"AndresPosadaMijo\",\r\n    \"Password\":       \"cositas\",\r\n    \"FirstName\":      \"Andres\",\r\n    \"LastName\":        \"Posada\",\r\n    \"Email\":          \"andresposada0151@gmail.com\",\r\n    \"ZipPostalCode\":  \"050021\",\r\n    \"Address1\":       \"Cra 27 # 7b - 50\",\r\n    \"PhoneNumber\":    \"31379388951\",\r\n    \"City\":           \"Medellin\"\r\n}"
+							"raw": "{\r\n    \"username\":       \"AndresPosada\",\r\n    \"password\":       \"cositas2\",\r\n    \"firstName\":      \"Feos Todos jeje\",\r\n    \"lastName\":        \"Posada\",\r\n    \"email\":          \"andresposada015@gmail.com\",\r\n    \"zipPostalCode\":  \"050021\",\r\n    \"address1\":       \"Cra 27 # 7b - 50\",\r\n    \"phoneNumber\":    \"3137938895\",\r\n    \"city\":           \"Medellin\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/users/create",
@@ -90,10 +96,10 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Username\":       \"AndresPosada\",\r\n    \"Password\":       \"cositas\",\r\n    \"FirstName\":      \"Feos Todos jeje\",\r\n    \"LastName\":        \"Posada\",\r\n    \"Email\":          \"andresposada015@gmail.com\",\r\n    \"ZipPostalCode\":  \"050021\",\r\n    \"Address1\":       \"Cra 27 # 7b - 50\",\r\n    \"PhoneNumber\":    \"3137938895\",\r\n    \"City\":           \"Medellin\"\r\n}"
+							"raw": "{\r\n    \"username\":       \"pruebapass\",\r\n    \"password\":       \"mamamiacarisima\",\r\n    \"firstName\":      \"fgjjd\",\r\n    \"lastName\":        \"Carina\",\r\n    \"email\":          \"andresposada01fgdfh5@gmail.com\",\r\n    \"zipPostalCode\":  \"ghjfghj\",\r\n    \"address1\":       \"dgjdjt\",\r\n    \"phoneNumber\":    \"5756456468\",\r\n    \"city\":           \"Medellin\",\r\n    \"roles\":            [\r\n        \"6155ffef63ffa6625864799e\",\r\n        \"6155ffef63ffa6625864799f\"\r\n    ]\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/users/AndresPosada",
+							"raw": "http://localhost:3000/users/pruebapass",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -101,7 +107,38 @@
 							"port": "3000",
 							"path": [
 								"users",
-								"AndresPosada"
+								"pruebapass"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update UserPassword By Username",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":       \"AndresPosada\",\r\n    \"password\":       \"holasoygerman\",\r\n    \"firstName\":      \"fgjjd\",\r\n    \"lastName\":        \"cgfjgfj\",\r\n    \"email\":          \"andresposada015@gmail.com\",\r\n    \"zipPostalCode\":  \"ghjfghj\",\r\n    \"address1\":       \"dgjdjt\",\r\n    \"phoneNumber\":    \"57567568\",\r\n    \"city\":           \"Medellin\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/users/pruebapass/password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"pruebapass",
+								"password"
 							]
 						}
 					},
@@ -113,7 +150,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/users/AndresPosada",
+							"raw": "http://localhost:3000/users/pruebapass",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -121,7 +158,7 @@
 							"port": "3000",
 							"path": [
 								"users",
-								"AndresPosada"
+								"pruebapass"
 							]
 						}
 					},
@@ -131,6 +168,71 @@
 		},
 		{
 			"name": "Auth",
+			"item": [
+				{
+					"name": "Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"PruebaPass2\",\r\n    \"password\":\"Cosas\",\r\n    \"phoneNumber\":\"755634345\",\r\n    \"roles\": [\r\n        \"allmight\",\r\n        \"admin\"\r\n    ]\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/signup",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Sign In",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"PruebaPass\",\r\n    \"password\":\"123456!\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:3000/auth/signin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
 			"item": [
 				{
 					"name": "Get All Roles",
@@ -152,20 +254,20 @@
 					"response": []
 				},
 				{
-					"name": "Get Role",
+					"name": "Get Role By Rolename",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/users/AndresPosada",
+							"raw": "http://localhost:3000/roles/prueba",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"users",
-								"AndresPosada"
+								"roles",
+								"prueba"
 							]
 						}
 					},
@@ -184,7 +286,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Username\":       \"AndresPosadaMijo\",\r\n    \"Password\":       \"cositas\",\r\n    \"FirstName\":      \"Andres\",\r\n    \"LastName\":        \"Posada\",\r\n    \"Email\":          \"andresposada0151@gmail.com\",\r\n    \"ZipPostalCode\":  \"050021\",\r\n    \"Address1\":       \"Cra 27 # 7b - 50\",\r\n    \"PhoneNumber\":    \"31379388951\",\r\n    \"City\":           \"Medellin\"\r\n}"
+							"raw": "{\r\n        \"role\": \"prueba\"\r\n}"
 						},
 						"url": {
 							"raw": "http://localhost:3000/roles/create",
@@ -202,7 +304,7 @@
 					"response": []
 				},
 				{
-					"name": "Update Role",
+					"name": "Update Role By Rolename",
 					"request": {
 						"method": "PUT",
 						"header": [
@@ -214,36 +316,38 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Username\":       \"AndresPosada\",\r\n    \"Password\":       \"cositas\",\r\n    \"FirstName\":      \"Feos Todos jeje\",\r\n    \"LastName\":        \"Posada\",\r\n    \"Email\":          \"andresposada015@gmail.com\",\r\n    \"ZipPostalCode\":  \"050021\",\r\n    \"Address1\":       \"Cra 27 # 7b - 50\",\r\n    \"PhoneNumber\":    \"3137938895\",\r\n    \"City\":           \"Medellin\"\r\n}"
+							"raw": "{\r\n        \"role\": \"Fin-Prueba\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:3000/roles",
+							"raw": "http://localhost:3000/roles/prueba",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"roles"
+								"roles",
+								"prueba"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Delete Role",
+					"name": "Delete Role By Rolename",
 					"request": {
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:3000/roles",
+							"raw": "http://localhost:3000/roles/Fin-Prueba",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "3000",
 							"path": [
-								"roles"
+								"roles",
+								"Fin-Prueba"
 							]
 						}
 					},
