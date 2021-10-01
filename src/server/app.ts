@@ -38,4 +38,5 @@ app.use(express.urlencoded({extended:false}));
 app.use(helmet());
 app.use(compression());
 app.use(cors());
+console.log("Running app.js");
 export default app;
