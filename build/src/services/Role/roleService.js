@@ -12,10 +12,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userService = void 0;
-const user_1 = __importDefault(require("../../repositories/user"));
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
-class userService {
+exports.roleService = void 0;
+const role_1 = __importDefault(require("../../repositories/role"));
+class roleService {
     //Properties
     //Attribute1: type;
     constructor() {
@@ -24,15 +23,15 @@ class userService {
     ;
     //Mehtods
     //Deconstructer
-    userParse(params) {
-        const { username, password, firstName, lastName, email, zipPostalCode, address1, phoneNumber, company, country, stateProvince, city, address2, createdOnUtc, updatedOnUtc, roles } = params;
-        return { username, password, firstName, lastName, email, zipPostalCode, address1, phoneNumber, company, country, stateProvince, city, address2, createdOnUtc, updatedOnUtc, roles };
+    roleParse(params) {
+        const { role } = params;
+        return { role };
     }
     //CRUDE
-    createUserAsync(user) {
+    createRoleAsync(role) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield (new user_1.default(user)).save();
+                return yield (new role_1.default(role)).save();
             }
             catch (error) {
                 console.log("Error Guardando");
@@ -42,132 +41,125 @@ class userService {
         });
     }
     ;
-    updateUserByUsernameAsync(username, userInfo) {
+    updateRoleByRolenameAsync(role, roleInfo) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_1.default.findOneAndUpdate({ username }, userInfo, { new: true });
+                return yield role_1.default.findOneAndUpdate({ role }, roleInfo, { new: true });
             }
             catch (error) {
-                console.log("Error Updating User");
+                console.log("Error Updating Role");
                 //console.log(error);
                 return null;
             }
         });
     }
     ;
-    deleteUserByUsernameAsync(username) {
+    deleteRoleByRolenameAsync(role) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_1.default.findOneAndDelete({ username });
+                return yield role_1.default.findOneAndDelete({ role });
             }
             catch (error) {
-                console.log("Error Deleting User");
+                console.log("Error Deleting Role");
                 //console.log(error);
-                return null;
-            }
-        });
-    }
-    ;
-    //Password Management
-    encryptPasswordAsync(password) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const salt = yield bcryptjs_1.default.genSalt(15);
-                return yield bcryptjs_1.default.hash(password, salt);
-            }
-            catch (error) {
-                console.log("Error Encrypting Password");
-                //console.log(error);
-                return null;
-            }
-        });
-    }
-    ;
-    checkPasswordAsync(password, recievedPassword) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                return yield bcryptjs_1.default.compare(password, recievedPassword);
-            }
-            catch (error) {
-                console.log("Error Comparing Passwords");
-                console.log(error);
                 return null;
             }
         });
     }
     ;
     //Search Methods
-    getAllUsersAsync() {
+    getAllRolesAsync() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const usersList = yield user_1.default.find();
-                if (usersList.length == 0 || usersList == null) {
+                const rolesList = yield role_1.default.find();
+                if (rolesList.length == 0 || rolesList == null || rolesList == undefined) {
                     return null;
                 }
                 else {
-                    return usersList;
+                    return rolesList;
                 }
             }
             catch (error) {
-                console.log("Error in finding All Users");
+                console.log("Error in finding All Roles");
                 //console.log(error);
                 return null;
             }
         });
     }
     ;
-    getUserByUsernameAsync(username) {
+    getRoleByRolenameAsync(role) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield user_1.default.findOne({ username });
+                return yield role_1.default.findOne({ role });
             }
             catch (error) {
-                console.log("Error in finding User");
+                console.log("Error in finding Role");
                 //console.log(error);
                 return null;
             }
         });
     }
     ;
-    getUserById(id) {
+    getRoleById(id) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const userid = id;
-                return yield user_1.default.findById(userid);
+                return yield role_1.default.findById(id);
             }
             catch (error) {
-                console.log("Error in finding User");
+                console.log("Error in finding Role");
                 //console.log(error);
                 return null;
             }
         });
     }
     ;
-    userExistsByUsernameAsync(username) {
+    roleExistsByRolenameAsync(role) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return ((yield user_1.default.findOne({ username })) != null);
+                return ((yield role_1.default.findOne({ role })) != null);
             }
             catch (error) {
-                console.log("Error in finding User");
+                console.log("Error in finding Role");
                 //console.log(error);
                 return false;
             }
         });
     }
     ;
-    //Populate Field
-    populateField(user, field) {
+    getValidIdListFromRoleFieldList(roles, field) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                return yield (new user_1.default(user)).populate(field);
+                let object = { param: { $in: roles } };
+                object[field] = object.param;
+                delete object.param;
+                const rolesList = yield role_1.default.find(object);
+                if (rolesList.length == 0 || rolesList == null || rolesList == undefined) {
+                    return null;
+                }
+                else {
+                    return rolesList;
+                }
             }
             catch (error) {
-                console.log("Error in Populating User Roles");
+                console.log("Error in finding valid Roles");
                 //console.log(error);
                 return null;
             }
         });
     }
+    getRoleIdByRolenameAsync(role) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const foundRole = yield role_1.default.findOne({ role });
+                return (foundRole == null) ? null : foundRole._id;
+            }
+            catch (error) {
+                console.log("Error in finding Role");
+                //console.log(error);
+                return null;
+            }
+        });
+    }
+    ;
 }
-exports.userService = userService;
+exports.roleService = roleService;

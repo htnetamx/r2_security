@@ -20,9 +20,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const userCtrl = __importStar(require("../controllers/userController"));
+const roleCtrl = __importStar(require("../controllers/roleController"));
 const middlewares_1 = require("../middlewares");
-class UserRoutes {
+class RoleRoutes {
     constructor() {
         this.router = (0, express_1.Router)();
         this.routes();
@@ -30,36 +30,31 @@ class UserRoutes {
     routes() {
         this.router.get('/', [
             middlewares_1.authJWT.verifyToken,
-            middlewares_1.authJWT.isAdmin
-        ], userCtrl.getAllUsers);
-        this.router.get('/:username', [
+            middlewares_1.authJWT.isAdmin,
+        ], roleCtrl.getAllRoles);
+        this.router.get('/:rolename', [
             middlewares_1.authJWT.verifyToken,
             middlewares_1.authJWT.isAdmin
-        ], userCtrl.getUserByUserName);
+        ], roleCtrl.getRoleByRoleName);
         this.router.post('/create', [
             middlewares_1.authJWT.verifyToken,
             middlewares_1.authJWT.isAdmin,
-            middlewares_1.userVerification.checkInput,
-            middlewares_1.userVerification.checkDuplicates,
-            middlewares_1.userVerification.checkValidRelations
-        ], userCtrl.createUser);
-        this.router.put('/:username/password', [
+            middlewares_1.roleVerification.checkInput,
+            middlewares_1.roleVerification.checkDuplicates,
+            middlewares_1.roleVerification.checkValidRelations
+        ], roleCtrl.createRole);
+        this.router.put('/:rolename', [
             middlewares_1.authJWT.verifyToken,
             middlewares_1.authJWT.isAdmin,
-            middlewares_1.userVerification.checkInputPassword
-        ], userCtrl.updateUserPasswordByUserName);
-        this.router.put('/:username', [
-            middlewares_1.authJWT.verifyToken,
-            middlewares_1.authJWT.isAdmin,
-            middlewares_1.userVerification.checkInput,
-            middlewares_1.userVerification.checkDuplicates,
-            middlewares_1.userVerification.checkValidRelations
-        ], userCtrl.updateUserByUserName);
-        this.router.delete('/:username', [
+            middlewares_1.roleVerification.checkInput,
+            middlewares_1.roleVerification.checkDuplicates,
+            middlewares_1.roleVerification.checkValidRelations
+        ], roleCtrl.updateRoleByRoleName);
+        this.router.delete('/:rolename', [
             middlewares_1.authJWT.verifyToken,
             middlewares_1.authJWT.isAdmin
-        ], userCtrl.deleteUserByUserName);
+        ], roleCtrl.deleteRoleByRoleName);
     }
 }
-const userRoutes = new UserRoutes();
-exports.default = userRoutes.router;
+const roleRoutes = new RoleRoutes();
+exports.default = roleRoutes.router;

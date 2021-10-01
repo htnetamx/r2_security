@@ -2,6 +2,7 @@ import  User from '../../repositories/user';
 import  {IUserDocument} from '../../repositories/user';
 import {IUser} from './IUser';
 import bcrypt from 'bcryptjs';
+import { Schema } from 'mongoose';
 
 export class userService implements IUser{ 
     //Properties
@@ -15,52 +16,13 @@ export class userService implements IUser{
         //Deconstructer
         userParse(params: any) : any{
             const {username,password,firstName,lastName,email,zipPostalCode,address1,phoneNumber,company,country,stateProvince,city,address2,createdOnUtc,updatedOnUtc,roles}=params;
-            //Validadores
-            if(username==null || username==''){
-                console.log("Error en Campo Username De Modelo User");
-                return null;
-            }
-            if(password==null || password==''){
-                console.log("Error en Campo Password De Modelo User");
-                return null;
-            }
-            if(phoneNumber==null || phoneNumber==''){
-                console.log("Error en Campo phoneNumber De Modelo User");
-                return null;
-            }
             return {username,password,firstName,lastName,email,zipPostalCode,address1,phoneNumber,company,country,stateProvince,city,address2,createdOnUtc,updatedOnUtc,roles};
         }
 
         //CRUDE
-        async getAllUsersAsync(): Promise<Array<IUserDocument>|null> {
-            try{
-                const usersList=await User.find();
-                if(usersList.length==0 || usersList==null){
-                    return null;
-                }
-                else{
-                    return usersList;
-                }
-            }
-            catch(error){
-                console.log("Error in finding All Users");
-                //console.log(error);
-                return null;
-            }
-        };
-        async getUserByNameAsync (username: string): Promise<IUserDocument|null> {
-            try{
-                return await User.findOne({ username });
-            }
-            catch(error){
-                console.log("Error in finding User");
-                //console.log(error);
-                return null;
-            }
-        };
         async createUserAsync(user: IUserDocument): Promise<IUserDocument|null>{
             try{
-                return await user.save();
+                return await (new User(user)).save();
             }
             catch(error){
                 console.log("Error Guardando");
@@ -68,7 +30,7 @@ export class userService implements IUser{
                 return null;
             }
         };
-        async updateUserByUsernameAsync(username: String,userInfo: any): Promise<IUserDocument|null>{
+        async updateUserByUsernameAsync(username: string,userInfo: any): Promise<IUserDocument|null>{
             try{
                 return await User.findOneAndUpdate({username},userInfo,{new: true});
             }
@@ -89,8 +51,7 @@ export class userService implements IUser{
             }
         };
 
-
-        //Verification
+        //Password Management
         async encryptPasswordAsync(password: string): Promise<string|null> {
             try{
                 const salt = await bcrypt.genSalt(15);
@@ -112,4 +73,64 @@ export class userService implements IUser{
                 return null;
             }
         };
+        //Search Methods
+        async getAllUsersAsync(): Promise<Array<IUserDocument>|null> {
+            try{
+                const usersList=await User.find();
+                if(usersList.length==0 || usersList==null){
+                    return null;
+                }
+                else{
+                    return usersList;
+                }
+            }
+            catch(error){
+                console.log("Error in finding All Users");
+                //console.log(error);
+                return null;
+            }
+        };
+        async getUserByUsernameAsync (username: string): Promise<IUserDocument|null> {
+            try{
+                return await User.findOne({ username });
+            }
+            catch(error){
+                console.log("Error in finding User");
+                //console.log(error);
+                return null;
+            }
+        };
+        async getUserById (id: String): Promise<IUserDocument|null> {
+            try{
+                const userid=id;
+                return await User.findById(userid);
+            }
+            catch(error){
+                console.log("Error in finding User");
+                //console.log(error);
+                return null;
+            }
+        };
+        async userExistsByUsernameAsync (username: string): Promise<boolean> {
+            try{
+                return ((await User.findOne({ username }))!=null);
+            }
+            catch(error){
+                console.log("Error in finding User");
+                //console.log(error);
+                return false;
+            }
+        };
+
+        //Populate Field
+        async populateField (user: IUserDocument,field: string): Promise<IUserDocument|null> {
+            try{
+                return await (new User(user)).populate(field);
+            }
+            catch(error){
+                console.log("Error in Populating User Roles");
+                //console.log(error);
+                return null;
+            }
+        }
 }

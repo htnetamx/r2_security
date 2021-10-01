@@ -8,8 +8,8 @@ class AuthRoutes{
         this.routes();
     }
     routes(){
-        //this.router.post('/signup',authCtrl.signUp);
-        //this.router.post('/signin',authCtrl.signIn);
+        this.router.post('/signup',authCtrl.signUp);
+        this.router.post('/signin',authCtrl.signIn);
     }
 }
 

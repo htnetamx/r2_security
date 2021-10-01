@@ -8,17 +8,12 @@ exports.RoleSchema = new mongoose_1.Schema({
     role: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        lowercase: true
     },
 }, {
     timestamps: true,
     versionKey: false
 });
-// method
-exports.RoleSchema.methods.methodExample = function () {
-    return "Method Working";
-};
-// static method
-exports.RoleSchema.statics.findByRole = function (role) {
-    return this.findOne({ role });
-};
+// Role Model
+exports.default = (0, mongoose_1.model)('Role', exports.RoleSchema);

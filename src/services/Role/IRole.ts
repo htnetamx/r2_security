@@ -1,16 +1,22 @@
-import { Model, model } from 'mongoose';
-import { RoleSchema,IRoleDocument} from '../../repositories/role';
+import  {IRoleDocument} from '../../repositories/role';
+export interface IRole{
+  //Properties
+  //Attribute1: type;
+  
+  //Mehtods
+    //Objects
+    roleParse(params: any) : any
 
-// document
-export interface IRole extends IRoleDocument {
-  // Methods
-  methodExample():string;
-}
+    //CRUDE
+    createRoleAsync(role: IRoleDocument): Promise<IRoleDocument|null>;
+    updateRoleByRolenameAsync(rolename: string,roleInfo: IRoleDocument): Promise<IRoleDocument|null>;
+    deleteRoleByRolenameAsync(rolename: string): Promise<IRoleDocument|null>;
 
-// model
-export interface IRoleModel extends Model<IRole> {
-  // Static Methods
-  findByRole(role: string): Promise<IRoleDocument>;
-}
-
-export const Role: IRoleModel = model<IRole, IRoleModel>('Role', RoleSchema);
+    //Search
+    getAllRolesAsync(): Promise<Array<IRoleDocument>|null>;
+    getRoleByRolenameAsync (rolename: string): Promise<IRoleDocument|null>;
+    getRoleById (id: String): Promise<IRoleDocument|null>;
+    roleExistsByRolenameAsync (rolename: string): Promise<boolean>;
+    getValidIdListFromRoleFieldList (roles: any,field: string): Promise<Array<IRoleDocument>|null>;
+    getRoleIdByRolenameAsync (role: string): Promise<IRoleDocument|null>;
+};

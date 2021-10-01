@@ -8,12 +8,18 @@ export interface IUser{
     userParse(params: any) : any
 
     //CRUDE
-    getAllUsersAsync(): Promise<Array<IUserDocument>|null>;
-    getUserByNameAsync (username: string): Promise<IUserDocument|null>;
     createUserAsync(user: IUserDocument): Promise<IUserDocument|null>;
-    updateUserByUsernameAsync(username: String,userInfo: IUserDocument): Promise<IUserDocument|null>;
+    updateUserByUsernameAsync(username: string,userInfo: IUserDocument): Promise<IUserDocument|null>;
     deleteUserByUsernameAsync(username: string): Promise<IUserDocument|null>;
-    //Verification
+    //Password Management
     encryptPasswordAsync(password: string): Promise<string|null>;
     checkPasswordAsync(password: string,recievedPassword:string): Promise<boolean|null>;
+    //Search
+    getAllUsersAsync(): Promise<Array<IUserDocument>|null>;
+    getUserByUsernameAsync (username: string): Promise<IUserDocument|null>;
+    getUserById (id: String): Promise<IUserDocument|null>;
+    userExistsByUsernameAsync (username: string): Promise<boolean>;
+    
+    //Populate Field
+    populateField (user: IUserDocument,field: string): Promise<IUserDocument|null>
 };

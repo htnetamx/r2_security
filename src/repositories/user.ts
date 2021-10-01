@@ -6,7 +6,7 @@ import {IRoleDocument} from './role';
 export interface IUserDocument extends Document {
     //Properties
     username: String,  
-    password?: String,
+    password: String,
     phoneNumber:String,  
     firstName:String,  
     lastName:String,  

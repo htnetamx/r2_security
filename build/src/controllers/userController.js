@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteUserByUserName = exports.updateUserByUserName = exports.createUser = exports.getUserByUserName = exports.getAllUsers = void 0;
+exports.deleteUserByUserName = exports.updateUserByUserName = exports.updateUserPasswordByUserName = exports.createUser = exports.getUserByUserName = exports.getAllUsers = void 0;
 const userService_1 = require("../services/User/userService");
 const _userService = new userService_1.userService();
 const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -19,47 +19,40 @@ const getAllUsers = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
 exports.getAllUsers = getAllUsers;
 const getUserByUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username } = req.params;
-    const user = yield _userService.getUserByNameAsync(username);
+    const user = yield _userService.getUserByUsernameAsync(username);
     (user == null) ? res.json({ response: 'User Not Found' }) : res.status(200).json(user);
 });
 exports.getUserByUserName = getUserByUserName;
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const userInput = yield _userService.userParse(req.body);
-    if (userInput == null) {
-        res.json({ response: 'Input Data Could Not Be Parsed' });
+    const encryptedPassword = yield _userService.encryptPasswordAsync(userInput.password);
+    if (encryptedPassword == null) {
+        res.json({ response: 'Error Update Password could not be encrypted' });
     }
     else {
-        const encryptedPassword = yield _userService.encryptPasswordAsync(userInput.password);
-        if (encryptedPassword == null) {
-            res.json({ response: 'Error Update Password could not be encrypted' });
-        }
-        else {
-            userInput.password = encryptedPassword;
-            const user = yield _userService.createUserAsync(userInput);
-            (user == null) ? res.json({ response: 'User Could Not Be Created' }) : res.status(201).json(user);
-        }
+        userInput.password = encryptedPassword;
+        const user = yield _userService.createUserAsync(userInput);
+        (user == null) ? res.json({ response: 'User Could Not Be Created' }) : res.status(200).json(user);
     }
 });
 exports.createUser = createUser;
+const updateUserPasswordByUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { username } = req.params;
+    let userInput = _userService.userParse(req.body);
+    const encryptedPassword = yield _userService.encryptPasswordAsync(userInput.password);
+    (encryptedPassword == null) ? res.json({ response: 'Error Update Password could not be encrypted' }) : userInput.password = encryptedPassword;
+    userInput.updatedOnUtc = Date.now();
+    const user = yield _userService.updateUserByUsernameAsync(username, userInput);
+    (user == null) ? res.json({ response: 'User Not Found' }) : res.status(200).json(user);
+});
+exports.updateUserPasswordByUserName = updateUserPasswordByUserName;
 const updateUserByUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { username } = req.params;
     let userInput = _userService.userParse(req.body);
-    if (userInput == null) {
-        res.json({ response: 'Input Data Could Not Be Parsed' });
-    }
-    else {
-        const isAdmin = true;
-        if (isAdmin) {
-            const encryptedPassword = yield _userService.encryptPasswordAsync(userInput.password);
-            (encryptedPassword == null) ? res.json({ response: 'Error Update Password could not be encrypted' }) : userInput.password = encryptedPassword;
-        }
-        else {
-            delete userInput['password'];
-        }
-        userInput.updatedOnUtc = Date.now();
-        const user = yield _userService.updateUserByUsernameAsync(username, userInput);
-        (user == null) ? res.json({ response: 'User Not Found' }) : res.status(200).json(user);
-    }
+    delete userInput['password'];
+    userInput.updatedOnUtc = Date.now();
+    const user = yield _userService.updateUserByUsernameAsync(username, userInput);
+    (user == null) ? res.json({ response: 'User Could Not Be Updated' }) : res.status(200).json(user);
 });
 exports.updateUserByUserName = updateUserByUserName;
 const deleteUserByUserName = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
