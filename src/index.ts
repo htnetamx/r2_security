@@ -2,7 +2,8 @@ import { ConnectionType,ConnectionStatus } from './application/base/types/connec
 import App from './app';
 import { DataBaseConnections} from './connections'
 import e from 'express';
-
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const setMongoose = {
     input: {
