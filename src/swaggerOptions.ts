@@ -12,5 +12,5 @@ export const options = {
             }
         ]
     },
-    apis: ["./src/server/routes/*.ts"]
+    apis: ["./src/server/routes/index/*.ts", "./src/server/routes/auth/*.ts"]
 }
