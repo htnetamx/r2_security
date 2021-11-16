@@ -2,6 +2,9 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
+import swaggerUI from 'swagger-ui-express'
+import swaggerJsDoc from 'swagger-jsdoc'
+import {options} from '../swaggerOptions'
 import cors from "cors";
 import * as pkg from '../../package.json';
 
@@ -10,6 +13,7 @@ import { Routes } from './routes';
 
 export class ExpressServer {
     public server: Express;
+    private specs = swaggerJsDoc(options)
 
     constructor() {
       this.server=express();
@@ -37,5 +41,7 @@ export class ExpressServer {
           this.server.use(helmet());
           this.server.use(compression());
           this.server.use(cors());
+          this.server.use('/docs', swaggerUI.serve, swaggerUI.setup(this.specs))
+
     }
 }
