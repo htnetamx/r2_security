@@ -1,5 +1,7 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import { UserController } from '../../../controller/user';
+import { JwtValidation } from '../../../middleware/jwt.middleware';
+
 
 export class LoginRoute {
     private server: Express;
@@ -69,6 +71,6 @@ export class LoginRoute {
          *        description: Some server error
          *
          */
-        this.server.post(`${baseUrl}login/`, this.authenticateUser);
+        this.server.post(`${baseUrl}login/`, JwtValidation,this.authenticateUser);
     }
 }
