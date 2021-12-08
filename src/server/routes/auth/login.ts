@@ -1,7 +1,6 @@
 import { Express, Request, Response, NextFunction } from 'express';
 import { UserController } from '../../../controller/user';
-import { JwtValidation } from '../../../middleware/jwt.middleware';
-
+import signJWT from '../../../middleware/signJwt';
 
 export class LoginRoute {
     private server: Express;
@@ -13,7 +12,23 @@ export class LoginRoute {
     public authenticateUser = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const result = await new UserController().authenticateUser(req.body);
-            res.send(result);
+            if (result) {
+                signJWT(result[0], (_error, token) => {
+                    if (_error) {
+                        return res.status(401).json({
+                            message: 'Unable to Sign JWT',
+                            error: _error
+                        });
+                    } else if (token) {
+                        return res.status(200).json({
+                            message: 'Auth Successful',
+                            token,
+                            user: result[0]
+                        });
+                    }
+                });
+            }
+
         } catch (e) {
 
         }
@@ -71,6 +86,6 @@ export class LoginRoute {
          *        description: Some server error
          *
          */
-        this.server.post(`${baseUrl}login/`, JwtValidation,this.authenticateUser);
+        this.server.post(`${baseUrl}login/`,this.authenticateUser);
     }
 }

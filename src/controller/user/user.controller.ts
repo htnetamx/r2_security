@@ -2,6 +2,7 @@ import { UserInputModel, Credential } from "../../application/domain";
 import { RegisterUserUseCase } from "../../application/services/useCases/auth/register";
 import { Token } from "../../token";
 import { AuthenticateUserUseCase } from "../../application/services/useCases/auth/login";
+import { Response, Request, NextFunction } from 'express';
 
 export class UserController {
     async registerUser(user: UserInputModel): Promise<null|Array<string|null>> {
